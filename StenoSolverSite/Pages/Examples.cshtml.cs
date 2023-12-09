@@ -2,12 +2,9 @@
 
 namespace StenoSolverSite.Pages;
 
-public class ExamplesModel : PageModel
+public class ExamplesModel(ILogger<ExamplesModel> logger) : PageModel
 {
-	private readonly ILogger<ExamplesModel> _logger;
-
-	public ExamplesModel(ILogger<ExamplesModel> logger)
-		=> _logger = logger;
+	private readonly ILogger<ExamplesModel> _logger = logger;
 
 	public void OnGet() { }
 }

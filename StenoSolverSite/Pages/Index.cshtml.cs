@@ -6,7 +6,7 @@ using static steno.Solver.Lingo;
 
 namespace StenoSolverSite.Pages;
 
-public class IndexModel : PageModel
+public class IndexModel(ILogger<IndexModel> logger) : PageModel
 {
 	protected internal const string Checkpoint = nameof (Checkpoint);
 
@@ -25,10 +25,7 @@ public class IndexModel : PageModel
 	[BindProperty]
 	public string DisplayPositions { get; set; } = "false";
 
-	private readonly ILogger<IndexModel> _logger;
-
-	public IndexModel(ILogger<IndexModel> logger)
-		=> _logger = logger;
+	private readonly ILogger<IndexModel> _logger = logger;
 
 	public void OnGet()
 	{

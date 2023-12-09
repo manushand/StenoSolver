@@ -104,7 +104,7 @@ public sealed class Solver
 		get => _outputFile;
 		set
 		{
-			if (value.Any())
+			if (value.Length is not 0)
 				try
 				{
 					File.AppendAllText(value, string.Empty);
@@ -122,10 +122,10 @@ public sealed class Solver
 	{
 		get
 		{
-			const string pawns = "pp" + "pp" + "pp" + "pp";
 			if (_startFen.Length > 8)
 				return _startFen;
-			var backRank = _startFen.Any() ? _startFen : "RN" + "BQ" + "KB" + "NR";
+			var backRank = _startFen.Length is not 0 ? _startFen : "RNBQKBNR";
+			const string pawns = "pppppppp";
 			return $"{backRank.ToLower()}/{pawns}/8/8/8/8/{pawns.ToUpper()}/{backRank} w KQkq - 0 1";
 		}
 		set
@@ -137,12 +137,12 @@ public sealed class Solver
 				_startFen = string.Empty;
 				Report("START FEN RESET", Success);
 				break;
-			case 8 when new string(fen.ToUpper().Order().ToArray()) is "BBK" + "NN" + "QRR":
+			case 8 when new string(fen.ToUpper().Order().ToArray()) is "BBKNNQRR":
 				//	This will be the back-rank for a Fischer game starting from move 1
 				fen = fen.ToUpper();
 				Report($"START BACK RANK SET TO {StartFen}", Success);
-				_startFen = fen is "RNB" + "QK" + "BNR" ? string.Empty : fen;
-				return;
+				_startFen = fen is "RNBQKBNR" ? string.Empty : fen;
+				break;
 			default:
 				//	We better have been given the first three or more parts of a valid FEN
 				var words = fen.Split();
@@ -170,7 +170,7 @@ public sealed class Solver
 			_checkpoint = value;
 			_checkpointStenoData.Clear();
 			_checkpointPositions.Clear();
-			if (!value.Any())
+			if (value.Length is 0)
 				return;
 
 			var checkpoint = Decompress(value);
@@ -313,7 +313,7 @@ public sealed class Solver
 		}
 
 		[JsonProperty]
-		public List<MoveSet> MoveSets { get; set; } = new () { new () };
+		public List<MoveSet> MoveSets { get; set; } = [new ()];
 
 		[JsonProperty]
 		public bool CheckFuture { get; set; }
@@ -356,7 +356,7 @@ public sealed class Solver
 	private static readonly string CaptureMarks = $"x{EnPassantMark}";
 
 	private IEnumerable<StenoData> FutureCheckMarks => _stenoData.Select(s => s with { Marks = Concat(s.Marks.Where(c => MarksForFuture.Contains(c))) })
-																 .Where(static s => s.Marks.Any())
+																 .Where(static s => s.Marks.Length is not 0)
 																 .ToList();
 
 	private byte[] _checkpoint = Empty<byte>();
@@ -398,9 +398,9 @@ public sealed class Solver
 	private const int ChunkSize = 1_000;
 	private const char SavedDataSeparator = default;
 
-	private readonly List<StenoData> _stenoData = new ();
+	private readonly List<StenoData> _stenoData = [];
 	private readonly Dictionary<string, Position> _newPositions = new ();
-	private readonly List<StenoData> _checkpointStenoData = new ();
+	private readonly List<StenoData> _checkpointStenoData = [];
 	private readonly Stopwatch _stopwatch = new ();
 	private const string BackRank = StandardBackRank;
 	private readonly MessageHandler? _report;
@@ -441,7 +441,7 @@ public sealed class Solver
 		if (type is MessageType.Abort)
 			StopSolving();
 		_report?.Invoke(text, type);
-		if (type is Status && _outputFile.Any())
+		if (type is Status && _outputFile.Length is not 0)
 			File.AppendAllText(_outputFile, text + '\n');
 	}
 
@@ -521,7 +521,7 @@ public sealed class Solver
 													? "$"
 													: string.Empty
 						   });
-		if (stenoChopper.Any())
+		if (stenoChopper.Length is not 0)
 		{
 			Report($"INVALID STENO: The problem is found here: {stenoChopper}", Error);
 			return false;
@@ -565,7 +565,7 @@ public sealed class Solver
 					error = "A player cannot castle so early in the game.";
 				else if (moveMarks.CountMarksContaining($"{ForcedDrawMarks}", 18) > 0)
 					error = "A forced draw before Black's ninth move is impossible.";
-		if (error.Any())
+		if (error.Length is not 0)
 		{
 			Report($"INVALID STENO: {error}\n", Error);
 			return false;
@@ -637,7 +637,7 @@ public sealed class Solver
 										  {
 											  var emptySquares = string.Empty;
 											  for (var file = KingsRooksFile - 1; file > KingsFile; emptySquares += (char)file--) { }
-											  if (emptySquares.Any())
+											  if (emptySquares.Length is not 0)
 												  _stenoData[each.Index - 1].MetaConditions += $"[{Join('&', emptySquares.Select(c => $"-{c}{rank}"))}]";
 										  }
 									  else if (queenSide)
@@ -652,7 +652,7 @@ public sealed class Solver
 										  {
 											  var emptySquares = string.Empty;
 											  for (var file = QueensRooksFile + 1; file < KingsFile; emptySquares += (char)file++) { }
-											  if (emptySquares.Any())
+											  if (emptySquares.Length is not 0)
 												  _stenoData[each.Index - 1].MetaConditions += $"[{Join('&', emptySquares.Select(c => $"-{c}{rank}"))}]";
 										  }
 								  });
@@ -670,7 +670,7 @@ public sealed class Solver
 			Report("INVALID STENO: CHECKPOINT CHUNKING IS DISABLED.", Error);
 			return false;
 		}
-		if (!_checkpointPositions.Any())
+		if (_checkpointPositions.Count is 0)
 		{
 			Report("INVALID STENO: No existing checkpoint to be chunked!", Error);
 			return false;
@@ -1103,7 +1103,7 @@ public sealed class Solver
 		//	TODO: THIS IS GREAT, BUT IT MIGHT BE SLOWING US DOWN SOME? MAYBE FIND A WAY TO DO IT ONLY IF A CAPTURE HAPPENED ON ONE OF THE POSITIONS?
 		//	If the queen (or both rooks, etc.) is gone in all positions, but we see one in the future, add a meta-condition [=Q] where it is seen.
 		//	The pieces that could have gone extinct are those of the OTHER color from the one that just moved.
-		var potentialGoners = data.Color == PieceColor.White ? "b" + "n" + "q" + "r" : "B" + "N" + "Q" + "R";
+		var potentialGoners = data.Color == PieceColor.White ? "bnqr" : "BNQR";
 		//	See if any of those pieces are indeed extinct, because they don't show up in the FEN of any possible position.
 		foreach (var piece in potentialGoners.Where(piece => _positions.Values.All(p => !p.Board.Contains(piece))))
 			//	Go through the upcoming steno-marks for the player with the extinct piece-type
@@ -1126,7 +1126,7 @@ public sealed class Solver
 	private void DisplayResults()
 	{
 		var totalMoveSets = _positions.Values.Select(static b => b.MoveSets.Count).Sum();
-		var atLeast = _positions.Any() && _positions.Values.Max(static b => b.MoveSets.Count) > _maxCooksToKeep ? "AT LEAST " : null;
+		var atLeast = _positions.Count is not 0 && _positions.Values.Max(static b => b.MoveSets.Count) > _maxCooksToKeep ? "AT LEAST " : null;
 		Report(Format(_reportLineFormat, _stenoData.Count, _positions.Count,
 					  $"POSITION{(_positions.Count is 1 ? null : "S")} " +
 					  $"AND {atLeast}{totalMoveSets:N0} GAME{(totalMoveSets is 1 ? null : "S")} " +
@@ -1154,7 +1154,7 @@ public sealed class Solver
 																									  : null)}{m}")))));
 		}
 
-		if (!_checkpointPositions.Any())
+		if (_checkpointPositions.Count is 0)
 			return;
 		//	Create a Checkpoint string that can be held offline and restored to a new Solver();
 		var serializedPositions = SerializeObject(_checkpointPositions) ?? throw new ();
@@ -1162,7 +1162,7 @@ public sealed class Solver
 		_checkpoint = Compress($"{serializedPositions}{SavedDataSeparator}{serializedStenoData}");
 	}
 
-	private static bool ValidateFen(string fen)
+	private static bool ValidateFen(string _)
 		//	TODO
 		=> true;
 

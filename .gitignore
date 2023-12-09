@@ -1,0 +1,11 @@
+*/obj
+*/bin
+**/.vs
+**/lib
+**/DeployPackage
+*.zip
+*.user
+**/.idea
+**/Properties
+**.config
+*.DotSettings

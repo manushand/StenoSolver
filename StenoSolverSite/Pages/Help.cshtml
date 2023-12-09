@@ -50,7 +50,7 @@
                 <span class="stenoText">%</span> &mdash; indicates that the move was an <em>en passant</em> capture<br/>
                 <span class="stenoText">o</span> &mdash; indicates that the move was an short (king-side) castling move
                 <br />
-                <span class="stenoText">O</span> &mdash; indicates that the move was an long (queen-side) castling move
+                <span class="stenoText">O</span> &mdash; indicates that the move was a long (queen-side) castling move
                 <br />
                 <span class="stenoText">+</span> &mdash; indicates that the move delivered check
                 <br />
@@ -102,7 +102,7 @@
             <p>
                 The <span class="stenoText">"</span> mark can indicate <em>only</em> the movement of the king
                 (not the rook) on the move immediately after castling.
-                <br />(That is, <span class="stenoText">O."</span> and <span class="stenoText">O.K</span> are equivalent.)
+                <br />(That is, <span class="stenoText">O~"</span> and <span class="stenoText">O~K</span> are equivalent.)
             </p>
         </div>
         <div class="subHelp banner" onclick="openClose('pgnDiv');">
@@ -217,7 +217,7 @@
                 Any text that is between a matching set of parentheses, such as
                 <span class="stenoText">(keep WQ in place)</span> is ignored by the solver.
                 This is helpful when deciding on the marks to choose for your final steno.
-                For example, <span class="stenoText">R(Rxh3)</span>would check to see if just
+                For example, <span class="stenoText">R(Rxh3)</span> would check to see if just
                 the <span class="stenoText">R</span> is sufficient to reach a unique solution, without you needing to
                 remove and potentially forget the other characters that you could choose to represent the move.
             </p>

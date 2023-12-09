@@ -13,7 +13,7 @@ var solver = new Solver(static (text, type) =>
 								WriteLine($"\r{new string(' ', WindowWidth - 1)}\r{text}");
 						});
 
-if (!args.Any())
+if (args.Length is 0)
 {
 	WriteLine($"\nStenoSolver v{VersionNumber} by Manus Hand." +
 			  "\nType ? for help.  Use Ctrl-C to exit the solver.");
@@ -114,10 +114,10 @@ if (!args.Any())
 
 	static void ShowHelpText()
 	{
-		const string files = "a" + "b" + "c" + "d" + "e" + "f" + "g" + "h";
-		const string classicPieces = "P" + "N" + "L" + "R" + "Q" + "K";
-		const string classicPromotions = "n" + "l" + "r" + "q";
-		const string pgnPieces = "N" + "B" + "R" + "Q" + "K";
+		const string files = "abcdefgh";
+		const string classicPieces = "PNLRQK";
+		const string classicPromotions = "nlrq";
+		const string pgnPieces = "NBRQK";
 		foreach (var text in new[]
 							 {
 								 "\nWhen entering a Steno, you may use the marks listed below.",
@@ -203,8 +203,8 @@ if (!args.Any())
 								 "          have advanced a pawn to the third or second rank.",
 								 "Add $ after any single mark in a steno to set the checkpoint there;",
 								 "use $ at the beginning of a steno to begin at the checkpoint.",
-								 "Type a chunk number (1+) followed, optionally, by a dash then, if" +
-								 "desired, a second, ending chunk number, and then * before a steno" +
+								 "Type a chunk number (1+) followed, optionally, by a dash then," +
+								 "if desired, a second, ending chunk number, and then * before a steno," +
 								 $"to work only specific chunks of {1000:N0} positions from a checkpoint."
 							 })
 			WriteLine(text);
