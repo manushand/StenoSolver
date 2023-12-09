@@ -1,0 +1,62 @@
+﻿@page
+@model StenoSolverSite.Pages.DownloadModel
+@{
+    ViewData["Title"] = "Download";
+}
+<div class="text-center">
+    <h1 class="display-4">StenoSolver App for Windows</h1>
+</div>
+<div class="setter banner text-center">ABOUT THE WINDOWS CONSOLE APP</div>
+<p>
+    A Console Application that runs on 64-bit Windows OS machines is available for download by
+    clicking the button below.  Download the <span class="stenoText">.zip</span> file and unzip it;
+    it contains a single file, named <span class="stenoText">StenoSolver.exe</span>. Run this
+    <span class="stenoText">.exe</span> file to use StenoSolver locally.
+</p>
+<p>
+    When running the StenoSolver Console App, type <span class="stenoText">?</span> to get help.
+    The solver's settings (vocabulary to use, maximum positions to evaluate, maximum multiple
+    solutions to show, etc.) can be changed by typing commands at the prompt, rather than steno
+    strings to be solved.  For example, typing <span class="stenoText">6(a&amp;6)a4bxx</span> will
+    start a solve, while typing something like <span class="stenoText">VOCABULARY&nbsp;PGN</span>
+    <em>or</em> <span class="stenoText">LIMIT&nbsp;500K</span> will modify one of the application's
+    settings.
+</p>
+<div class="setter banner text-center">WHY YOU MIGHT WANT TO DOWNLOAD THE WINDOWS CONSOLE APP</div>
+<p>
+    If you wish to use the StenoSolver to set or solve extremely difficult puzzles, working with
+    the Windows Console App may be your preferred solution.
+</p>
+<p>
+    The Console App allows you to devote more processing power, if you wish, to help solve or set more
+    difficult puzzles.  To avoid impacting other users and other Websites that run on this server, the site caps
+    (at <span class="stenoText">200K</span>) the number of positions per steno mark that it will examine, but
+    in the Windows Console App, the limit is much higher &mdash; 2 billion.  Furthermore, with the Console
+    App, you can control the number of concurrent solver tasks that are put to work on the puzzle by using
+    a command like <span class="stenoText">TASKS 16</span>, to increase the number of solver tasks to be
+    used from its default value (4, which is used here on the Website).  <em>[Whether this would actually
+    significantly speed up the StenoSolver depends on your particular hardware, of course.]</em>
+</p>
+<p>
+    Additionally, the Console App allows you to raise the number of "cooks" that the solver keeps track of.
+    For performance reasons, the number is fixed at <span class="stenoText">1</span> here on the Website,
+    but in the Console App you can raise it as high as you wish (if for any reason you need to see detailed
+    move-sequences leading to the same solution positions; note that the speed-to-solve will
+    be impacted).
+</p>
+<p>
+    Furthermore, the Console App lets you specify a starting position for a steno, rather than being limited
+    to only puzzles that start from the normal game-start position of a standard chess game.
+</p>
+<p>
+    Finally, the Console App allows you to continue solves from checkpoints in "chunks" of the saved positions,
+    so that you can split up the job, if it turns out that proving a complex puzzle's solution to be unique
+    would run your computer out of resources when done in a single sitting.  The Console App also lets you
+    <span class="stenoText">SAVE</span> and <span class="stenoText">LOAD</span> checkpoints on disk, and
+    write the results of a solve to a local <span class="stenoText">FILE</span>.
+</p>
+<div class="text-center">
+    <a href="StenoSolver.zip" download="StenoSolver.zip">
+        <input type="button" class="download-button" value="Download StenoSolver.exe for 64-Bit Windows" />
+    </a>
+</div>

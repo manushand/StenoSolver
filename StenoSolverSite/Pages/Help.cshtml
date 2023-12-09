@@ -1,0 +1,405 @@
+﻿@page
+@model StenoSolverSite.Pages.HelpModel
+@{
+    ViewData["Title"] = "Help";
+}
+<div class="text-center">
+    <h1 class="display-4">About Steno-Chess and StenoSolver</h1>
+    <p>
+        Steno-Chess was initially developed by Éric Angelini and introduced by him in 2005 on the website
+        chessvariants.com.
+        <br />
+        The concept behind Steno-Chess is that each move made in a chess game is represented by a single
+        character in a string.
+        <br />
+        The challenge is to determine the one and only sequence of chess moves that a string describes.
+        <br />
+    </p>
+
+    <div class="help banner" onclick="openClose('lingoDiv');">
+        STENO-CHESS VOCABULARIES
+    </div>
+    <div id="lingoDiv" class="collapsed">
+        <div class="lingo banner">
+            In all three vocabularies, whitespace is always ignored.
+        </div>
+        <div class="subHelp banner" onclick="openClose('classicDiv');">
+            CLASSIC STENO-CHESS
+        </div>
+        <div id="classicDiv" class="collapsed">
+            <p>
+                <strong>Classic Steno-Chess allows for the following characters:</strong>
+            </p>
+            <p>
+                <span class="stenoText">~</span> &mdash; indicates that the move could be any legal move at all
+                <br />
+                <span class="stenoText">a b c d e f g</span> and <span class="stenoText">h</span> &mdash; indicate that
+                the moving piece ended its move on this file
+                <br />
+                <span class="stenoText">1 2 3 4 5 6 7</span> and <span class="stenoText">8</span> &mdash; indicate that
+                the moving piece ended its move on this rank
+                <br />
+                <span class="stenoText">K Q R N L</span> and <span class="stenoText">P</span> - indicate that the
+                moving piece was a King, Queen, etc.
+                <br />
+                (notice that <span class="stenoText">L</span> is used for bishop moves)<br/>
+                <span class="stenoText">q r l</span> and <span class="stenoText">n</span> &mdash; indicates that the move was
+                a pawn promotion to the specified piece
+                <br />
+                <span class="stenoText">x</span> &mdash; indicates that the move was a capture<br/>
+                <span class="stenoText">%</span> &mdash; indicates that the move was an <em>en passant</em> capture<br/>
+                <span class="stenoText">o</span> &mdash; indicates that the move was an short (king-side) castling move
+                <br />
+                <span class="stenoText">O</span> &mdash; indicates that the move was an long (queen-side) castling move
+                <br />
+                <span class="stenoText">+</span> &mdash; indicates that the move delivered check
+                <br />
+                <span class="stenoText">=</span> &mdash; indicates that the move resulted in stalemate
+                <br />
+                <span class="stenoText">#</span> &mdash; indicates that the move delivered checkmate
+            </p>
+            <p>
+                Castling is considered to be a king's move, so only <span class="stenoText">K</span> (not <span class="stenoText">R</span>)
+                and the King's starting and finishing rank or file can be used to represent a castling move.
+                <br />
+                (That is, any of <span class="stenoText">K</span>, <span class="stenoText">g</span>, and <span class="stenoText">8</span>
+                could represent a Black king-side castle, but <span class="stenoText">R</span> and <span class="stenoText">f</span> cannot.)
+            </p>
+        </div>
+        <div class="subHelp banner" onclick="openClose('extendedDiv');">
+            EXTENDED STENO-CHESS
+        </div>
+        <div id="extendedDiv" class="collapsed">
+            <p>
+            <strong>
+                Extended Steno-Chess was developed by Manus Hand (with the exception of
+                <span class="stenoText">&ndash;</span>, which existed in earlier extensions).
+                <br />
+                It allows for <em>all</em> of the marks in Classic Steno-Chess (listed above) and <em>also</em>
+                the following:
+            </strong>
+            </p>
+            <p>
+                <span class="stenoText">&ndash;</span> &mdash; indicates that the move was <em>not</em> a capture
+                <br />
+                <span class="stenoText">/ \ |</span> and <span class="stenoText">_</span> &mdash; indicate that piece moved
+                straight in the specified direction
+                <br />
+                <span class="stenoText">^ v &lt;</span> and <span class="stenoText">&gt;</span> &mdash; indicate that the piece
+                moved closer to the pointed-to edge of the board
+                <br />
+                <span class="stenoText">"</span> indicates that the moving piece began its move on the square where
+                the player's previous move ended
+                <br />
+                <span class="stenoText">p</span> &mdash; indicates that the move was a pawn promotion (to an unspecified
+                piece-type)
+                <br />
+                <span class="stenoText">0</span> &mdash; indicates that the move was an castling move (to an unspecified
+                side)
+                <br />
+                <span class="stenoText">B</span> &mdash; indicates (in addition to <strong>L</strong>) a bishop move
+            </p>
+            <p>
+                The <span class="stenoText">"</span> mark can indicate <em>only</em> the movement of the king
+                (not the rook) on the move immediately after castling.
+                <br />(That is, <span class="stenoText">O."</span> and <span class="stenoText">O.K</span> are equivalent.)
+            </p>
+        </div>
+        <div class="subHelp banner" onclick="openClose('pgnDiv');">
+            PGN STENO-CHESS
+        </div>
+        <div id="pgnDiv" class="collapsed">
+            <p>
+                <strong>
+                    PGN Steno-Chess was also developed by Manus Hand (the developer of the StenoSolver).
+                    <br />
+                    Essentially, in the PGN steno-vocabulary, if a character appears in the
+                    <br />PGN (Portable Game Notation) for a chess-move, then it can validly represent that move.
+                </strong>
+            </p>
+            <p>
+                <span class="stenoText">.</span> and <span class="stenoText">~</span> &mdash; indicate that the move could be
+                any legal move at all
+                <br />
+                <span class="stenoText">a b c d e f g</span> and <span class="stenoText">h</span> &mdash; indicate that the
+                moving piece ended its move on this file
+                <br />
+                <em><strong>or</strong></em> that the letter was needed to disambiguate the move (e.g., the
+                <span class="stenoText">g</span> in the move <span class="stenoText">Nge2</span>)
+                <br />
+                <span class="stenoText">1 2 3 4 5 6 7</span> and <span class="stenoText">8</span> &mdash; indicate that the
+                moving piece ended its move on this rank
+                <br />
+                <em><strong>or</strong></em> that the digit was needed to disambiguate the move
+                (e.g., the <span class="stenoText">2</span> in the move <span class="stenoText">R2a7</span>)
+                <br />
+                <span class="stenoText">K Q R N</span> and <span class="stenoText">B</span> - indicate that the moving
+                piece was a King, Queen, etc.
+                <br />
+                <em><strong>or</strong></em> that a pawn was promoted to that type of piece (except
+                <span class="stenoText">K</span>, of course)
+                <br />&mdash; note that there is no <span class="stenoText">P</span> for pawn &mdash;
+                <br />
+                <span class="stenoText">=</span> &mdash; indicates that the move was a pawn promotion (to an unspecified
+                piece-type)
+                <br />
+                <span class="stenoText">O</span> and <span class="stenoText">&ndash;</span> &mdash; indicate that the move was a
+                castling move (to an unspecified side)
+                <br />
+                <span class="stenoText">x + #</span> &mdash; have their usual meaning (capture, check, and checkmate)
+                <br />
+                <span class="stenoText">/</span> &mdash; indicates that the move resulted in a draw (which PGN annotates with
+                <span class="stenoText">½-½</span>)
+                <br /><em>The draw may be due to either stalemate or insufficient material.
+                    <br />Draws by repetition or by the 75-move rule are not recognized.</em>
+            </p>
+            <p>
+                Notice that in PGN Steno-Chess, a castling move can <strong>only</strong> be represented by
+                <span class="stenoText">O</span> or <span class="stenoText">&ndash;</span>
+                <br />
+                (that is, <span class="stenoText">K</span>, <span class="stenoText">R</span>, and the rank
+                and files involved will <em>not</em> represent a castling move).
+            </p>
+        </div>
+    </div>
+
+    <div class="help banner" onclick="openClose('solverDiv');">
+        USING THE STENOSOLVER FOR CREATING PUZZLES
+    </div>
+    <div id="solverDiv" class="collapsed">
+        <div class="subHelp banner" onclick="openClose('andDiv');">
+            APPLYING MULTIPLE MARKS TO A SINGLE MOVE
+        </div>
+        <div id="andDiv" class="collapsed">
+            <p class="justify">
+                While creating a puzzle, it is often useful to specify multiple requirements for a move, and then go
+                back later to whittle away these requirements to come up with the final version of a puzzle.  For
+                example, rather than knowing right at the beginning of your work that the mark
+                <span class="stenoText">e</span> is sufficient to describe a move that needs to be made, you can
+                specify any or all of the other marks that identify the move while you continue your work on the puzzle.
+            </p>
+            <p class="justify">
+                This is done by using ampersands to separate the multiple marks to be applied to the same move.
+                For example, <span class="stenoText">1&amp;P&amp;a&amp;x&amp;n</span> could be used to ensure that the solver must
+                make the move <span class="stenoText">bxa1=N</span> on a specific turn for Black.  Later during your
+                work, you would of course come back and remove all of the ampersand-joined marks (except one) if
+                possible to do so and still force a unique solution.
+            </p>
+        </div>
+        <div class="subHelp banner" onclick="openClose('notDiv');">
+            APPLYING "FORBIDDEN" MARKS TO A MOVE
+        </div>
+        <div id="notDiv" class="collapsed">
+            <p class="justify">
+                It is often also useful, during puzzle creation and solution, to specify a mark that you are sure must
+                <em>not</em> hold true about a particular chess move.
+                This is done by using an exclamation point to introduce any such mark.
+                For example, <span class="stenoText">a!3</span> as the first move of a game will uniquely
+                match only the pawn advance to the <span class="stenoText">a4</span> square.  Similarly, the game-beginning steno
+                <span class="stenoText">a!P</span> will only match the move <span class="stenoText">Na3</span>.
+            </p>
+            <p class="justify">
+                Multiple "forbidden" (also called "and not") marks can be specified for any steno mark.  The steno
+                <span class="stenoText">~!Q!x!6</span> specifies that the move may be anything <em>other than</em>
+                a queen move, a capture (by any piece), or any move that ends on the 6th rank.
+            </p>
+            <p class="justify">
+                Forbidden marks can be combined with ampersands.  The steno
+                <span class="stenoText">x&amp;g!R</span> specifies a move that is a capture on the g-file that
+                is <em>not</em> made by a rook.
+            </p>
+        </div>
+        <div class="subHelp banner" onclick="openClose('notesDiv');">
+            ADDING NOTES TO YOURSELF
+        </div>
+        <div id="notesDiv" class="collapsed">
+            <p class="justify">
+                Any text that is between a matching set of parentheses, such as
+                <span class="stenoText">(keep WQ in place)</span> is ignored by the solver.
+                This is helpful when deciding on the marks to choose for your final steno.
+                For example, <span class="stenoText">R(Rxh3)</span>would check to see if just
+                the <span class="stenoText">R</span> is sufficient to reach a unique solution, without you needing to
+                remove and potentially forget the other characters that you could choose to represent the move.
+            </p>
+        </div>
+        <div class="subHelp banner" onclick="openClose('saveDiv');">
+            CREATING AND USING CHECKPOINTS DURING A SOLVE
+        </div>
+        <div id="saveDiv" class="collapsed">
+            <p class="justify">
+                It is often time-consuming to wait for the solver to get to a certain point in a solve, only for you
+                to have to re-start the solve after changing something in the steno after that point.  To help with
+                this, you can instruct the solver to "save its work" after any particular mark, and then tell it to
+                start at that point in later runs.
+            </p>
+            <p class="justify">
+                This is done by using the dollar-sign.  When the solver reaches a <span class="stenoText">$</span>
+                during a solve, it will save its work at that point.  If <span class="stenoText">$</span> is given
+                at the <em>very beginning</em> of a steno, then the solver will begin from the saved checkpoint.
+                For example:
+            </p>
+            <div class="text-center stenoText">a24N557Qhg $ a(a&6) a 4b xx</div>
+            <p class="justify">
+                will cause the solver to save its place at the point when the <span class="stenoText">$</span> is
+                reached.  Then, if you have decided to see if the mark that follows the save-point
+                would work better as a <span class="stenoText">6</span>, your next steno for the solver could be:
+            </p>
+            <div class="text-center stenoText">$ 6(a&amp;6) a 4b xx</div>
+            <p class="justify">
+                and all of the time that would have been taken by the solver to re-process all of the marks
+                <span class="stenoText">a24N557Qhg</span> would be saved.
+            </p>
+        </div>
+        <div class="subHelp banner" onclick="openClose('conditionsDiv');">
+            SPECIFYING CONDITIONS THAT MUST HOLD TRUE AFTER A MOVE
+        </div>
+        <div id="conditionsDiv" class="collapsed">
+            <p class="justify">
+                You can also specify conditions that the solver will check after a move is made, and reject any
+                position that does not satisfy those conditions.  This is useful when you, as a human solver,
+                recognize something that is enforced by the existence of certain marks given later in a steno.
+            </p>
+            <p class="justify">
+                This is done by adding one or more condition-sets, enclosed in square brackets, after the mark.
+                When more than one condition-set is given, <em>all</em> must hold true.  The recognized conditions
+                (which are specified and understood the same way when using any of the three vocabularies) are
+                exemplified and described below:
+            </p>
+            <ul>
+                <li>
+                    <span class="stenoText">[xB]</span> mandates that a bishop was captured on the move that just was
+                    made; only one piece type may be specified after an <span class="stenoText">x</span>.  Since the
+                    color of any piece captured on the turn is known, the piece-type may be given either as upper- or
+                    lower-case.  However, <em>in all other conditions described below</em>, upper-case letters are
+                    used to indicate White pieces, and lower-case to indicate Black pieces.
+                </li>
+                <li>
+                    <span class="stenoText">[XnBp]</span> mandates that every listed piece (in this example,
+                    a Black knight, a White bishop, and a black pawn) must have been captured by this point in the game.
+                </li>
+                <li>
+                    <span class="stenoText">[=rR]</span> mandates that every listed piece (in this example, a rook of
+                    each color) has been created by promotion by this point in the game.  The list of pieces may be
+                    omitted (that is, simply <span class="stenoText">[=]</span> is allowed), to mean only that at least
+                    one player must have made at least one promotion.
+                </li>
+                <li>
+                    <span class="stenoText">[^5]</span> mandates that at least one White pawn must be on or above
+                    the fifth rank.
+                </li>
+                <li>
+                    <span class="stenoText">[v3]</span> mandates that at least one Black pawn must be on or below
+                    the third rank.
+                </li>
+                <li>
+                    <span class="stenoText">[&ndash;f6]</span> mandates that the <span class="stenoText">f6</span> square
+                    must be vacant.  Note that you may omit the rank or the file, to indicate a completely empty rank
+                    or file (for example, <span class="stenoText">[&ndash;2]</span> is allowed).
+                </li>
+                <li>
+                    <span class="stenoText">[qb4]</span> mandates that a Black queen must be on the
+                    <span class="stenoText">b4</span> square. Again, you may omit the rank or the file, to indicate
+                    that a specific piece-type must be somewhere on that rank or file (for example,
+                    <span class="stenoText">[Kh]</span> is allowed to mean the White king must be somewhere on the
+                    h-file).
+                </li>
+                <li>
+                    <span class="stenoText">[&#64;g3]</span> mandates that the piece that moved must have begun
+                    the turn on the <span class="stenoText">g3</span> square.  Again, you may omit the rank or the
+                    file, to indicate only the rank or file from which the move began (for example,
+                    <span class="stenoText">[&#64;d]</span> is allowed).
+                </li>
+            </ul>
+            <p class="justify">
+                Note that within conditions, the letters <span class="stenoText">L</span> (and the lower-case letter
+                <span class="stenoText">l</span>) and <span class="stenoText">D</span> (and
+                <span class="stenoText">d</span>) can be used, to represent the light-square and dark-square bishops.
+            </p>
+            <p class="justify">
+                Within a square-bracketed condition set, you may separate multiple conditions using a vertical bar
+                (<span class="stenoText">|</span>), meaning "or".  In this case, if <em>either or any one</em> of the
+                conditions separated by the vertical bar holds true, the solver will accept the entire square-bracketed
+                condition as holding true.  Note that ampersands are considered <em>before</em> vertical bars.
+                For example, <span class="stenoText">[=r|=q]</span> mandates that Black must have promoted either to a
+                Rook or to a Queen (or both) by this point in the game.  Similarly,
+                <span class="stenoText">[ka3|ka2&amp;Pb2|kb3]</span> mandates that the Black king must be on one of three
+                specific squares, but if is on <span class="stenoText">a2</span>,
+                then a White pawn must be also on the <span class="stenoText">b2</span> square.
+            </p>
+        </div>
+        <div class="subHelp banner" onclick="openClose('metaDiv');">
+            CONDITIONS THAT THE SOLVER ADDS AUTOMATICALLY
+        </div>
+        <div id="metaDiv" class="collapsed">
+            <p class ="justify">
+                To eliminate solve-paths that are doomed to fail, and thus reduce the time it takes to solve a puzzle,
+                the StenoSolver applies the following logic automatically:
+            </p>
+            <ul>
+                <li>
+                    If a castling mark is in the steno:
+                    <ul>
+                        <li>
+                            the castling player cannot make a castling move before that mark is reached
+                        </li>
+                        <li>
+                            the castling player must not be in check, so <span class="stenoText">!+</span>
+                            is added to the opposing player's previous move
+                        </li>
+                        <li>
+                            the castling player's king and rook must not move before that mark is reached
+                            (for example, <span class="stenoText">[Rh1]</span> is added to all moves prior
+                            to a White king-side castle, and <span class="stenoText">!K</span> to all prior
+                            moves by White)
+                        </li>
+                        <li>
+                            the squares between the castling player's king and rook must be empty when the mark is
+                            reached (for example, <span class="stenoText">[&ndash;f1&amp;&ndash;g1]</span> is added
+                            after the single move that precedes to a White king-side castle)
+                        </li>
+                        <li>
+                            the squares between the castling player's king and rook must be empty a full-turn before
+                            the mark is reached, except that if the castling is to the queen's side, the queen's
+                            knight's square may be occupied by an opposing Knight or Bishop (for example,
+                            <span class="stenoText">[&ndash;c1&amp;&ndash;d1][&ndash;b1|nb1|bb1]</span> is added
+                            after the White player's move that immediately precedes his queen-side castle)
+                        </li>
+                        <li>
+                            if the castling move appears on the player's fourth turn, <!-- in StandardSetup -->
+                            it is known to be king's side castling.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    If a promotion mark is in the steno:
+                    <ul>
+                        <li>
+                            the promoting player must have a pawn advanced sufficiently on the preceding moves,
+                            or a promotion must have taken place before the mark is reached (for example,
+                            <span class="stenoText">[v3|=q]</span> is added to both player's moves that immediately
+                            precede a Black promotion to a queen, and <span class="stenoText">[v4|=q]</span> to the
+                            two before that, etc.)
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    If a move captures the opponent's only queen, rook, bishop, or knight, and if a move of such
+                    a piece is specified later in the steno, then a promotion is forecast to take place on or before
+                    that move, and the pawn advance logic described above is applied.
+                </li>
+                <li>
+                    Marks that forbid the game to end (such as <span class="stenoText">!#</span>) are added to all
+                    steno marks prior to the final move in the steno.
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div style="clear: both"></div>
+</div>
+<script>
+    function openClose(divId) {
+        const element = document.getElementById(divId);
+        element.style.display = element.style.display !== 'block' ? 'block' : 'none';
+    }
+</script>

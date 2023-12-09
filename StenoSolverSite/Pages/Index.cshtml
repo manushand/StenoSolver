@@ -1,0 +1,104 @@
+﻿@page
+@model IndexModel
+
+@using steno
+@using static IndexModel
+@using static steno.Solver.Lingo
+@using static steno.Solver.MessageType
+
+@{
+    ViewData["Title"] = nameof (Solver);
+}
+
+<div id="loading">
+    <img class="loading-image" src="" alt="Loading..." />
+</div>
+<div class="text-center">
+    <h1 class="display-4">StenoSolver</h1>
+    @using (Html.BeginForm(FormMethod.Post, new { onsubmit = "showSpinner();" }))
+    {
+        @if (ViewData[nameof (Success)] is not null
+         ||  ViewData[nameof (Error)] is not null
+         ||  ViewData[nameof (Abort)] is not null)
+        {
+            var cssClass = ViewData[nameof (Success)] is null ? "error" : "success";
+            <div class="@cssClass banner" onclick="this.style.display='none';">
+                @ViewData[nameof (Abort)]
+                @ViewData[nameof (Error)]
+                @ViewData[nameof (Success)]
+            </div>
+        }
+
+        <div class="settings banner">SETTINGS</div>
+        <span>Vocabulary:</span>
+        <select asp-for="Vocabulary">
+            <option>@(nameof (Extended))</option>
+            <option>@(nameof (Classic))</option>
+            <option>@(nameof (PGN))</option>
+        </select>
+        <span>Maximum Positions to Evaluate Per Mark:</span>
+        <select asp-for="MaxPositionsToExamine">
+            <option>1K</option>
+            <option>2K</option>
+            <option>5K</option>
+            <option>10K</option>
+            <option>20K</option>
+            <option>50K</option>
+            <option>100K</option>
+            <option>200K</option>
+            <!--
+                To prevent too much performance degradation on the server, 200K is current allowed max.
+            -->
+        </select>
+        <br />
+        <span>Multiple Solutions:</span>
+        <select asp-for="DisplayPositions" onchange="whatToDisplayChanged(this);" id="DisplayPositionsDropDown">
+            <option value="none">Do Not Show Details</option>
+            <option value="false">Show Only Moves Made</option>
+            <option value="true">Show Moves and Boards</option>
+        </select>
+        <select asp-for="MaxSolutionsToList" onchange="whatToDisplayChanged(this)" id="MaxSolutionsToListDropDown">
+            <option value="0">...none at all</option>
+            <option value="2">for up to 2 solutions</option>
+            <option value="5">for up to 5 solutions</option>
+            <option value="10">for up to 10 solutions</option>
+            <option value="20">for up to 20 solutions</option>
+        </select>
+
+        <div class="steno banner">STENO</div>
+        @if (!string.IsNullOrEmpty(ViewData[Checkpoint] as string))
+        {
+            <div class="solved stenoText banner">
+                @ViewData[Checkpoint]
+            </div>
+        }
+        <textarea asp-for="Input" spellcheck="false"
+            rows="@Math.Max(6, Model.Input.Count(static c => c is '\n') + 1)" cols="85">
+        </textarea>
+        <br/>
+        <input type="submit" value="Begin Solve" />
+
+        <div class="solve banner">SOLUTION DETAILS</div>
+        <textarea id="solveStatus" disabled rows="20" cols="85">@ViewData[nameof (Status)]</textarea>
+
+        <script>
+            function whatToDisplayChanged(element) {
+                const other = document.getElementById(element.id === 'DisplayPositionsDropDown'
+                                                                   ? 'MaxSolutionsToListDropDown'
+                                                                   : 'DisplayPositionsDropDown');
+                if (!element.selectedIndex) {
+                    other.selectedIndex = 0;
+                } else if (!other.selectedIndex) {
+                    ++other.selectedIndex;
+                }
+            }
+            function showSpinner() {
+                document.getElementById('loading').style.display = 'block';
+            }
+            window.addEventListener('load', _ => {
+                const textarea = document.getElementById('solveStatus');
+                textarea.scrollTop = textarea.scrollHeight;
+            });
+        </script>
+    }
+</div>
